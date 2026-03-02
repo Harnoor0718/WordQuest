@@ -1,0 +1,84 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id             String    @id @default(cuid())
+  name           String
+  email          String    @unique
+  password       String
+  level          String    @default("Apprentice")
+  xp             Int       @default(0)
+  currentStreak  Int       @default(0)
+  longestStreak  Int       @default(0)
+  lastActiveDate DateTime?
+  createdAt      DateTime  @default(now())
+  progress       UserProgress[]
+  leaderboard    Leaderboard[]
+}
+
+model World {
+  id          String    @id @default(cuid())
+  name        String
+  slug        String    @unique
+  theme       String
+  description String
+  emoji       String
+  color       String
+  chapters    Chapter[]
+  words       Word[]
+}
+
+model Word {
+  id            String    @id @default(cuid())
+  word          String
+  definition    String
+  pronunciation String
+  partOfSpeech  String
+  examples      Json
+  etymology     String
+  memoryTip     String
+  worldId       String
+  date          DateTime  @default(now())
+  world         World     @relation(fields: [worldId], references: [id])
+  chapters      Chapter[]
+}
+
+model Chapter {
+  id            String         @id @default(cuid())
+  worldId       String
+  wordId        String
+  chapterNumber Int
+  title         String
+  storyText     String         @db.LongText
+  isLocked      Boolean        @default(true)
+  world         World          @relation(fields: [worldId], references: [id])
+  word          Word           @relation(fields: [wordId], references: [id])
+  progress      UserProgress[]
+}
+
+model UserProgress {
+  id          String    @id @default(cuid())
+  userId      String
+  chapterId   String
+  completed   Boolean   @default(false)
+  score       Int       @default(0)
+  completedAt DateTime?
+  user        User      @relation(fields: [userId], references: [id])
+  chapter     Chapter   @relation(fields: [chapterId], references: [id])
+
+  @@unique([userId, chapterId])
+}
+
+model Leaderboard {
+  id        String   @id @default(cuid())
+  userId    String
+  weeklyXp  Int      @default(0)
+  weekStart DateTime
+  user      User     @relation(fields: [userId], references: [id])
+}
