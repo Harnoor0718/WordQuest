@@ -1,10 +1,15 @@
+import { Routes, Route } from 'react-router-dom'
+import Landing from './pages/Landing'
+import Onboarding from './pages/Onboarding'
+import Dashboard from './pages/Dashboard'
+
 function App() {
   return (
-    <div className="min-h-screen bg-black flex items-center justify-center">
-      <h1 className="text-4xl font-bold text-yellow-400">
-        WordQuest ⚔️
-      </h1>
-    </div>
+    <Routes>
+      <Route path="/" element={<Landing />} />
+      <Route path="/onboarding" element={<Onboarding />} />
+      <Route path="/dashboard" element={<Dashboard />} />
+    </Routes>
   )
 }
 
