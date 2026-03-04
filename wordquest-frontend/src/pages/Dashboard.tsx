@@ -333,6 +333,7 @@ export default function Dashboard() {
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.4 }}
+              onClick={() => navigate('/world/fantasy')}
               className="rounded-2xl p-5 cursor-pointer"
               style={{
                 background: 'radial-gradient(ellipse at top, rgba(107,33,168,0.3), rgba(10,6,18,0.8))',
