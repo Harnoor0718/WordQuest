@@ -4,6 +4,8 @@ import dotenv from 'dotenv'
 import worldRoutes from './routes/worlds'
 import wordRoutes from './routes/words'
 import chapterRoutes from './routes/chapters'
+import aiRoutes from './routes/ai'
+import authRoutes from './routes/auth'
 
 dotenv.config()
 
@@ -20,6 +22,8 @@ app.use(express.json())
 app.use('/api/worlds', worldRoutes)
 app.use('/api/words', wordRoutes)
 app.use('/api/chapters', chapterRoutes)
+app.use('/api/ai', aiRoutes)
+app.use('/api/auth', authRoutes)
 
 // Test route
 app.get('/', (req, res) => {
